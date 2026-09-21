@@ -1,0 +1,153 @@
+/* Aufgaben – App-spezifisches Styling (Ryzen-Hub-UI, UI-RICHTLINIE.md §11).
+   Alles andere kommt aus /ui/hub-ui.css. Nur Tokens — keine Literale. */
+
+/* ── KPI-Kacheln = einzige In-App-Navigation (§7) ─────────────────────
+   Aktive Kachel: Akzentrahmen, nicht klickbar (kein Hover-Lift, kein
+   Zeiger, kein Pfeil). */
+.hub-ui .widget-aktiv { border-color: var(--accent); cursor: default; }
+.hub-ui .widget-aktiv:hover { transform: none; box-shadow: var(--shadow-xs); }
+.hub-ui .widget-aktiv .widget-pfeil { visibility: hidden; }
+
+/* ── Seitenkopf: Bereichstitel + primäre Aktion (§7: eine pro Seite) ── */
+.seite-kopf {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 4px;
+}
+.seite-kopf .section-header { margin: 0; }
+
+/* Seiten-Fehler (Alert am Seitenanfang, §7). [hidden] muss greifen —
+   .hub-ui .alert setzt display:flex und überschreibt sonst das
+   hidden-Attribut. */
+.container > .alert { margin-bottom: 12px; }
+.container > .alert[hidden] { display: none; }
+
+/* ── Badges (§5/§7: Soft-Hintergrund + Textfarbe + Label — nie nur Farbe) ── */
+.badge-prio-hoch    { background: var(--red-soft);   color: var(--err-text); }
+.badge-prio-mittel  { background: var(--amber-soft); color: var(--warn-text); }
+.badge-prio-niedrig { background: var(--gray-soft);  color: var(--text-2); }
+.badge-status-offen           { background: var(--accent-soft); color: var(--accent); }
+.badge-status-in-bearbeitung  { background: var(--amber-soft);  color: var(--warn-text); }
+.badge-status-erledigt        { background: var(--green-soft);  color: var(--ok-text); }
+.badge-thema { background: var(--hover);      color: var(--text-2); }
+.badge-wdh   { background: var(--accent-soft); color: var(--accent); }
+.badge-prio-hoch, .badge-prio-mittel, .badge-prio-niedrig,
+.badge-status-offen, .badge-status-in-bearbeitung, .badge-status-erledigt,
+.badge-thema, .badge-wdh { font-weight: 600; }
+
+/* ── Fälligkeit (Symbol + Datum tragen die Aussage, Farbe verstärkt) ── */
+.faellig { color: var(--err-text); font-weight: 600; }
+.heute   { color: var(--warn-text); font-weight: 600; }
+
+/* Erledigte Zeilen gedämpft — der Status-Badge trägt die Aussage */
+.hub-ui .hub-table tr.zeile-erledigt td { opacity: 0.55; }
+
+/* Zusatzzeilen in der Was-Zelle */
+.projekt { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+.ext-link { color: var(--accent); text-decoration: none; margin-left: 4px; }
+.ext-link:hover { text-decoration: underline; }
+.mut { color: var(--text-2); }
+
+/* ── Auswahl-Spalte (Mehrfachauswahl für die Bulk-Aktionen) ── */
+.hub-ui .hub-table .spalte-chk { width: 44px; text-align: center; }
+.hub-ui .hub-table input[type="checkbox"] {
+  width: 16px; height: 16px; margin: 0;
+  accent-color: var(--accent); cursor: pointer; flex-shrink: 0;
+}
+/* Tap-Ziel der Zeilen-Auswahl (§10: ≥ 44 px) */
+.chk-treffer {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 28px; min-height: 28px; cursor: pointer;
+}
+
+/* ── Zeilen-Aktionen ── */
+.aktionen { display: flex; gap: 4px; white-space: nowrap; }
+.hub-ui .btn-sm { padding: 4px 9px; font-size: 12px; min-height: 30px; }
+.btn-ok  { background: var(--green-soft); border-color: transparent; color: var(--ok-text); }
+.btn-ok:hover { background: var(--green); color: var(--on-accent); }
+.btn-del { background: var(--red-soft); border-color: transparent; color: var(--err-text); }
+.btn-del:hover { background: var(--red); color: var(--on-accent); }
+
+/* ── Toolbar (Server-Filter, §7/AP223b) ──
+   In der App eine kompakte Filterzeile; mit dem HubTable-Suchfeld
+   bildet sie .liste-kopf (baut hub-ui.js). */
+.hub-ui .toolbar { padding: 0; margin-bottom: 12px; }
+.toolbar select {
+  padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text-1);
+  font-size: 13px; font-family: var(--font); min-height: 36px;
+}
+.toolbar select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.toolbar-count { font-size: 12px; color: var(--text-2); margin-left: auto; }
+
+/* ── Bulk-Aktionsleiste (erscheint, wenn Zeilen markiert sind) ── */
+.bulk-bar {
+  display: none; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 10px 14px; margin-bottom: 12px;
+  background: var(--accent-soft); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.bulk-bar.sichtbar { display: flex; }
+.bulk-anzahl { font-size: 13px; font-weight: 600; color: var(--text-1); }
+.bulk-bar select, .bulk-bar input[type="date"] {
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text-1);
+  font-size: 13px; font-family: var(--font); min-height: 32px;
+}
+.bulk-bar select:focus, .bulk-bar input[type="date"]:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ── Dialog / Modal — dokumentiertes Referenzmuster (§7) ──
+   Overlay + Karte, Esc schließt, Klick aufs Overlay schließt,
+   Buttons „Speichern"/„Löschen"/„Abbrechen". */
+.overlay {
+  display: none; position: fixed; inset: 0; z-index: 1200;
+  /* Scrim wie die Sidebar-Ablage des Hubs (kein Token vorhanden) */
+  background: rgba(0, 0, 0, 0.35);
+  align-items: center; justify-content: center; padding: 16px;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lift);
+  padding: 22px; width: min(520px, 96vw); max-height: 90vh; overflow-y: auto;
+}
+.modal h2 { font-size: 15px; font-weight: 650; letter-spacing: -0.2px; margin-bottom: 16px; }
+.modal p { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row.full { grid-column: 1 / -1; }
+.form-row label { display: block; font-size: 12px; font-weight: 500; color: var(--text-2); margin-bottom: 3px; }
+.form-row input, .form-row select, .form-row textarea {
+  width: 100%; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text-1);
+  font-size: 13px; font-family: var(--font); min-height: 36px;
+}
+.form-row textarea { min-height: 60px; resize: vertical; }
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+/* Fehlertext unter dem Formular (§7: nie nur roter Rahmen) */
+.form-fehler { display: none; margin-top: 10px; font-size: 12px; color: var(--err-text); }
+.form-fehler.sichtbar { display: block; }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+
+/* ── Mobile (§10: Breakpoints 768/390, Tap-Ziele ≥ 44 px) ── */
+@media (max-width: 768px) {
+  .seite-kopf { align-items: stretch; }
+  .seite-kopf .btn-primary { width: 100%; min-height: 44px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .toolbar select, .toolbar .btn, .modal-btns .btn { min-height: 44px; }
+  .bulk-bar select, .bulk-bar input[type="date"], .bulk-bar .btn { min-height: 44px; }
+  .hub-ui .btn-sm { min-height: 44px; padding: 8px 12px; }
+  .hub-ui .hub-table input[type="checkbox"] { width: 22px; height: 22px; }
+  .chk-treffer { min-width: 44px; min-height: 44px; }
+  .modal { padding: 18px; }
+  .modal-btns .btn { flex: 1; }
+}
+
+@media (max-width: 390px) {
+  .modal { padding: 14px; }
+  .bulk-bar { padding: 8px 10px; gap: 6px; }
+  .bulk-bar select, .bulk-bar input[type="date"] { width: 100%; }
+}
